@@ -87,3 +87,7 @@ sympy-plots-for-*.tex/
 
 # xindy
 *.xdy
+
+# Sepcific files
+btb_ch4_stimfeatures.mat
+btb_ch4_stimfeatures_ORI.mat
