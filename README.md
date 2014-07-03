@@ -1,4 +1,5 @@
-Classifying Acoustic Signals into Phoneme Categories: Average and Dyslexic Readers Make Use Of Complex Dynamical Patterns
+Classifying Acoustic Signals into Phoneme Categories
 ===============
+### Average and Dyslexic Readers Make Use Of Complex Dynamical Patterns
 
 Supplemental materials
