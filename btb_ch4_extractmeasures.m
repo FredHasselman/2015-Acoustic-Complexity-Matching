@@ -1,4 +1,4 @@
-%% Supplementary Material to "Beyond the Boundary - Chapter 4"
+%% Supplementary Material to Hasselman (2014) "Classifying Complex Patterns into Speech Categories"
 %
 %%% Introduction
 % This is a demonstration script accompanying the fourth chapter of my dissertation (Beyond the Boundary). Its purpose is to
@@ -131,7 +131,7 @@ end
 
 clear cnt cnt2 wavFile wavPath ext txtPath txtFile DELIMITER SKIP fid Path
 
-save('btb_ch4_stimfeatures.mat');
+save('stimuli.mat');
 
 %% Get Envelope and Formant measures
 
@@ -183,7 +183,7 @@ end % for mani
 
 clear cnt mani manis stim stims
 
-save('btb_ch4_stimfeatures.mat');
+save('Hasselman2104_stimfeatures.mat');
 
 %% Get Rise and Fall Time Entropy using MIR toolbox (MIR will smooth and resample Hilbert transform)
 
@@ -218,7 +218,7 @@ end
 
 clear cnt 
 
-save('btb_ch4_stimfeatures.mat');
+save('Hasselman2104_stimfeatures.mat');
 
 
 %% Create TS with equal samples, normalized to [-1 1] for HNR and RQA
@@ -254,7 +254,7 @@ end
 
 clear i
 
-save('btb_ch4_stimfeatures.mat');
+save('Hasselman2104_stimfeatures.mat');
 
 %% Calculate HNR based on resampled waveforms 
 
@@ -281,7 +281,7 @@ end
 
 clear i
 
-save('btb_ch4_stimfeatures.mat');
+save('Hasselman2104_stimfeatures.mat');
 
 
 %% Calculate RECURRENCE MEASURES
@@ -307,4 +307,114 @@ end
 
 clear tau thr e i m W WS LMIN VMIN TW
 
-save('btb_ch4_stimfeatures.mat');
+save('Hasselman2104_stimfeatures.mat');
+
+%%  Get MULTIFRACTAL SPECTRUM
+% Makes use of the Multifractal Detrended Fluctuation Analysis code MFDFA1.m by E. Ihlen.
+% The code is availale here: http://www.ntnu.edu/inm/geri/software
+% An article descibing the MFDFA technique and how to use the code:
+% Ihlen(2012). Introduction to MFDFA, FrontiersIn Fractal Physiology, 3(141), 1-18.
+% http://www.ntnu.edu/documents/170234/1315232/Introduction_to_MFDFA.pdf
+
+scmin=6;
+scmax=12;
+ressc=40;
+
+scale=round(2.^[scmin:((scmax-scmin)/ressc):scmax]);
+
+qmin=-10;
+qmax=10;
+qres=101;
+
+qq = linspace(qmin,qmax,qres);
+
+m=1;
+
+
+ for i = 1:40
+  
+  stimuliMF(i).y = stimuli(i).y;
+  stimuliMF(i).t = [0:(1/stimuli(i).fs):(length(stimuliMF(i).y)-1)/stimuli(i).fs]';
+  
+  [stimuliMF(i).IA, stimuliMF(i).IF] = hilbert2(stimuli(i).y,stimuli(i).fs);
+
+  [mf(i).Hq,mf(i).tq,mf(i).hq,mf(i).Dq,mf(i).Fq]=MFDFA1(stimuliMF(i).IA,scale,qq,m,0);
+  %plot(log2(scale),log2(mf(i).Fq(qq==1,:)./scale))
+  
+ end
+ 
+ save('Hasselman2104_stimfeatures_mf.mat','stimuliMF','mf');
+
+%%
+
+%  load('Hasselman2104_stimfeatures_mf.mat');
+
+h0=figure;
+maximize(h0);
+cnt=0;
+
+left = [1 3 5 7];
+st   = [0 10 20 30];
+stc  = [10 20 30 40 50 60 70 80 90 100];
+
+cm  = gray(130);
+
+for i = 1:4
+ 
+ for s=1:10
+  cnt=cnt+1;
+  
+  subplot(4,2,left(i));
+  ax0 = gca;
+  
+  plot(qq,mf(cnt).Hq,'Color',cm(stc(s),:),'LineWidth',2); hold on;
+  title('Q-Dependence of Scaling Exponent H');
+  xlabel('q')
+  ylabel('h(q)')
+  xlim([min(qq) max(qq)]);
+  ylim([.45 2.55]);
+  
+  
+  subplot(4,2,left(i)+1);
+  
+  h(s)=plot(mf(cnt).hq,mf(cnt).Dq,'Color',cm(stc(s),:),'LineWidth',2); hold on;
+  title('Multifractal Spectrum');
+  xlabel('h(q)')
+  ylabel('D(q)')
+  ylim([-.05 1.05]);
+  xlim([.45 2.55]);
+  
+ end
+ 
+ legend(h,...
+  {['/bAk/ | ',strcat('hq: max-min = ',num2str(max(mf(1+st(i)).hq)-min(mf(1+st(i)).hq)))],...
+  ['  2   | ',strcat('hq: max-min = ',num2str(max(mf(2+st(i)).hq)-min(mf(2+st(i)).hq)))],...
+  ['  3   | ',strcat('hq: max-min = ',num2str(max(mf(3+st(i)).hq)-min(mf(3+st(i)).hq)))],...
+  ['  4   | ',strcat('hq: max-min = ',num2str(max(mf(4+st(i)).hq)-min(mf(4+st(i)).hq)))],...
+  ['  5   | ',strcat('hq: max-min = ',num2str(max(mf(5+st(i)).hq)-min(mf(5+st(i)).hq)))],...
+  ['  6   | ',strcat('hq: max-min = ',num2str(max(mf(6+st(i)).hq)-min(mf(6+st(i)).hq)))],...
+  ['  7   | ',strcat('hq: max-min = ',num2str(max(mf(7+st(i)).hq)-min(mf(7+st(i)).hq)))],...
+  ['  8   | ',strcat('hq: max-min = ',num2str(max(mf(8+st(i)).hq)-min(mf(8+st(i)).hq)))],...
+  ['  9   | ',strcat('hq: max-min = ',num2str(max(mf(9+st(i)).hq)-min(mf(9+st(i)).hq)))],...
+  ['/dAk/ | ',strcat('hq: max-min = ',num2str(max(mf(10+st(i)).hq)-min(mf(10+st(i)).hq)))]},...
+  'FontSize',12,...
+  'FontName','Courier',...
+  'Location','BestOutside')
+ 
+ Opos(i,:)=get(ax0,'Position');
+ 
+ 
+end
+
+Tpos = [-.1 -0.07 0 0];
+
+h_1= annotation('textbox',[Opos(1,:)+Tpos],'String','None','EdgeColor','none','FontSize',16);
+set(h_1,'FitBoxToText','on');
+h_2= annotation('textbox',[Opos(2,:)+Tpos],'String','Slowed Down','EdgeColor','none','FontSize',16);
+set(h_2,'FitBoxToText','on');
+h_3= annotation('textbox',[Opos(3,:)+Tpos],'String','Amplified','EdgeColor','none','FontSize',16);
+set(h_3,'FitBoxToText','on');
+h_4=annotation('textbox',[Opos(4,:)+Tpos],'String','Both','EdgeColor','none','FontSize',16);
+set(h_4,'FitBoxToText','on');
+
+grab('Hasselman2014_FigureX',0)

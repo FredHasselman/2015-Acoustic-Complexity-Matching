@@ -1,23 +1,26 @@
-%% Supplementary Material to "Beyond the Boundary - Chapter 4"
+%%Supplementary Material to Hasselman (2014) "Classifying Complex Patterns into Speech Categories"
 %
 %%% Introduction
-% This is a demonstration script accompanying the fourth chapter of my dissertation (Beyond the Boundary). Its purpose is to
+% This is a demonstration script accompanying the article "Classifying Complex Patterns into Speech Categories". Its purpose is to
 % provide an example of how to use various freely available MATLAB sources on the web to extract variables from speech
 % stimuli. This script should thus be used as an example to build your own scripts only. It is not a function or toolbox, not
 % optimized for speed or functionality! Evaluate the code per Cell (using MATLAB's Cell Mode) and inspect the workspace to
 % see what is going on.
 %
-% Create Figures 4.1 - 4.7
+% See OSF project for details: <https:osf.io/a8g32>
+%
+% Create Figures 1 - 7
 
 %% Data / Toolboxes / Scripts used
 %
 % * CRP Toolbox by Norbert Marwan (<http://tocsy.pik-potsdam.de/CRPtoolbox/>)
 % * Fred's toolbox: https://github.com/FredHasselman/toolboxML
-% * Data is available in the GithHub repository: <https://github.com/FredHasselman/BTB-Supplemental-Material-CHAPTER4>
+% * Data is available in the GithHub repository: <https://github.com/FredHasselman/> and throuigh the OSF project:
+% <https:osf.io/a8g32>
 
 %% Author / Version / License
 %
-% Repository: <https://github.com/FredHasselman/BTB-Supplemental-Material-CHAPTER4/ *BTB Chapter 4 on GitHub*>
+% Repository: <https://github.com/FredHasselman/https://github.com/FredHasselman/Hasselman2014-PeerJ-Classifying-Complex-Patterns-/ *Hasselman2014 on GitHub*>
 %
 % Created by: <http://www.fredhasselman.com/ *Fred Hasselman*> / January 2011
 % Affiliations: <http://www.ru.nl/bsi _Behavioural Science Institute_> - <http://www.ru.nl _Radboud University Nijmegen_>
@@ -30,7 +33,7 @@
 %Change ... to the path on your machine where you stored the files
 path=pwd;
 cd(path)
-load('btb_ch4_stimfeatures_ORI.mat');
+load('Hasselman2014_stimfeatures_ORI.mat');
 
 
 %% Figure 4.1: F2 Slope
@@ -153,7 +156,7 @@ h_7 = annotation('arrow',[.2 .84],[.05 .05],'HeadStyle','cback2','LineWidth',1.5
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX
 
 % Uncomment if you want to save a figure
- grab('btb_ch4_Figure1',0)
+%grab('Hasselman2014_Figure1',0)
 
 
 %% Figure 4.2: maxENVELOPE Slope
@@ -248,7 +251,7 @@ h_7 = annotation('arrow',[.2 .84],[.05 .05],'HeadStyle','cback2','LineWidth',1.5
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX
 
 % Uncomment if you want to save a figure
-%grab('btb_ch4_Figure2',0);
+%grab('Hasselman2014_Figure2',0);
 
 %% Figure 4.3: Rise and Fall Time Entropy
 
@@ -341,7 +344,7 @@ h_7 = annotation('arrow',[.2 .84],[.05 .05],'HeadStyle','cback2','LineWidth',1.5
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX
 
 % Uncomment if you want to save a figure
-% grab('btb_ch4_Figure3',0);
+% grab('Hasselman2014_Figure3',0);
 
 
 %% Figure 4.4: Phase Space Reconstruction Example
@@ -428,7 +431,7 @@ set([hc7 hc8 hc9],'MarkerFaceColor',[.7 .7 .7],'MarkerSize',8);
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX
 
 % Uncomment if you want to save a figure
-% grab('btb_ch4_Figure4',0);
+% grab('Hasselman2014_Figure4',0);
 
 %% Figure 4.5 (LEFT): RP example
 
@@ -558,7 +561,7 @@ set(h_s,'FitBoxToText','on');
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX
 
 % Uncomment if you want to save a figure
-% grab('btb_ch4_Figure5',0);
+% grab('Hasselman2014_Figure5',0);
 
 %% Figure 4.5 (RIGHT): RP RANDOM example
 
@@ -690,7 +693,7 @@ set(h_s,'FitBoxToText','on');
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX
 
 % Uncomment if you want to save a figure
-% grab('btb_ch4_Figure5r',0);
+% grab('Hasselman2014_Figure5r',0);
 
 
 %% Figure 4.6: RP plots
@@ -773,7 +776,7 @@ set(h_8,'FitBoxToText','on');
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX
 
 % Uncomment if you want to save a figure
-% grab('btb_ch4_Figure6',0);
+% grab('Hasselman2014_Figure6',0);
 
 %% Figure 4.7: LOGIT predictions
 
@@ -920,4 +923,4 @@ ylabel('\fontsize{14}\it\pi\fontsize{12}\rm with \itCI\fontsize{10}_{.95}\fontsi
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX data data2
 
 % Uncomment if you want to save a figure
- grab('btb_ch4_Figure7',0);
+ grab('Hasselman2014_Figure7',0);
