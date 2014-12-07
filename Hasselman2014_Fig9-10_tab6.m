@@ -47,9 +47,9 @@ bootN = 1500;
 % reproduce results
 rng(12345)
 
-%% QDA based on sample labelling (M3) plot Figure 8
+%% QDA based on sample labelling (M3) plot Figure 11
 
-h0 = figure; set(h0,'NextPlot','add')
+h0 = figure; set(h0,'NextPlot','add') %,'Renderer','painters')
 subplot(2,7,[1 2]); ax1 = gca; axis square;
 subplot(2,7,[3 4]); ax2 = gca; axis square;
 subplot(2,7,[5 6]); ax3 = gca; axis square;
@@ -61,9 +61,13 @@ subplot(2,7,[7 14]); ax7 = gca; axis square;
 set([ax1 ax2 ax3 ax4 ax5 ax6 ax7],'NextPlot','add');
 maximize(h0);
 
+warning off
+
 markr= ['o','v','^','d'];
 CLR  = [0 0 0;.5 .5 .5];
 CLR2 = [.3 .3 .3;.7 .7 .7];
+
+% cm = colormap([CLR;CLR2]);
 
 indM = [1:10;11:20;21:30;31:40];
 indT = [1 10;11 20;21 30;31 40];
@@ -71,15 +75,15 @@ indT = [1 10;11 20;21 30;31 40];
 % Use column 1 of observedGR = targets based on M3
 observed = observedGR(:,1);
 
-for i = 1:length(observed)
- if round(observed(i)) == 1
-  labels(i,1) = 1;
-  labstr{i,1} = '/dAk/';
-  clrT(i,:)   = CLR(2,:);
+for s = 1:length(observed)
+ if round(observed(s)) == 1
+  labels(s,1) = 1;
+  labstr{s,1} = '/dAk/';
+  clrT(s,:)   = CLR(2,:);
  else
-  labels(i,1) = 0;
-  labstr{i,1} = '/bAk/';
-  clrT(i,:)   = CLR(1,:);
+  labels(s,1) = 0;
+  labstr{s,1} = '/bAk/';
+  clrT(s,:)   = CLR(1,:);
  end
 end
 
@@ -99,6 +103,10 @@ for i = 1:40
  F2       = polyfit(FT(bt:et),TT(bt:et),1);
  FS(i)    = F2(2);
  IA(i)    = STIM(i).IASmxO;
+ 
+ LDr       = LAM(i)/DET(i);
+ MFr       = MFMIN(i)/MFMAX(i);
+ 
 end
 
 % Convert to unit scale
@@ -112,9 +120,11 @@ NOISY = unit(NOISY);
 IA    = unit(IA);
 FS    = unit(FS);
 
+LDr  = unit(LDr);
+MFr  = unit(MFr);
 
-MEASURES  = {'MFCV of H(q<0)', 'MFCV of H(q>0)','DETERMINISM','LAMINARITY','Inharmonicity (HNR)',...
- 'Rise Time Entropy','Max Envelope Slope','Formant Sweep (F2 Slope)'};
+MEASURES  = {'CV Positive q (CVhq+)', 'CV Negative q (CVhq-)','Determinism (DET)','Laminarity (LAM)','Inharmonicity (HNR)',...
+ 'Rise Time Entropy (RFTe)','Max Envelope Slope (maxENV) ','Second Formant Sweep (\Delta F2)'};
 
 for i = 1:6
  
@@ -163,8 +173,8 @@ for i = 1:6
   TOTcl(i).C0E, TOTcl(i).C1E);
  
  z = reshape(z, length(x), length(y));
- [C,hz]=contour(x, y, z, [0 0], 'k-');
- 
+ [C,hz]=contour(x, y, z, [0 0], '-k');
+
  z=z(:);
  for zc = 1:length(z)
   if z(zc)<=0
@@ -174,7 +184,7 @@ for i = 1:6
   end
  end
  
- if length(unique(z1))<2
+if length(unique(z1))<2
   hi1 = 2; hi2=3;
  else
   hi1 = 4; hi2=6;
@@ -230,13 +240,13 @@ for i = 1:6
  xlabel(MEASURES{rp1});ylabel(MEASURES{rp2});
  legend off
 
- clear featvec x x1 y y1 z z1 zc m c clrM ld h1 h2 mn1 mx1 step1 mn2 mx2 step2
+ clear featvec x x1 y y1 z z1 zc m c clrM ldmn1 mx1 step1 mn2 mx2 step2 h1 h2 
  clear nticks1 nticks2 rp1 rp2
-  
+ 
 end
 
 % Create "legend" plot
-%
+
 subplot(2,7,[7 14]); ax7 = gca; axis square;
 ax=ax7;
 
@@ -244,19 +254,23 @@ s1=plot(ax,.41,.8,'o','Color',CLR(1,:),'MarkerSize',12,'LineWidth',2); hold on;
 s2=plot(ax,.41,.7,'v','Color',CLR(1,:),'MarkerSize',12,'LineWidth',2); hold on;
 s3=plot(ax,.41,.6,'^','Color',CLR(1,:),'MarkerSize',12,'LineWidth',2); hold on;
 s4=plot(ax,.41,.5,'d','Color',CLR(1,:),'MarkerSize',12,'LineWidth',2); hold on;
-s5=plot(ax,.56,.8,'o','Color',CLR(2,:),'MarkerSize',12,'LineWidth',2); hold on;
-s6=plot(ax,.56,.7,'v','Color',CLR(2,:),'MarkerSize',12,'LineWidth',2); hold on;
-s7=plot(ax,.56,.6,'^','Color',CLR(2,:),'MarkerSize',12,'LineWidth',2); hold on;
-s8=plot(ax,.56,.5,'d','Color',CLR(2,:),'MarkerSize',12,'LineWidth',2); hold on;
+
 
 s9 =plot(ax,.41,.35,'o','Color',CLR(1,:),'MarkerSize',6,'MarkerFaceColor',CLR(1,:)); hold on;
 s10=plot(ax,.41,.25,'v','Color',CLR(1,:),'MarkerSize',6,'MarkerFaceColor',CLR(1,:)); hold on;
 s11=plot(ax,.41,.15,'^','Color',CLR(1,:),'MarkerSize',6,'MarkerFaceColor',CLR(1,:)); hold on;
 s12=plot(ax,.41,.05,'d','Color',CLR(1,:),'MarkerSize',6,'MarkerFaceColor',CLR(1,:)); hold on;
-s13=plot(ax,.56,.35,'o','Color',CLR(2,:),'MarkerSize',6,'MarkerFaceColor',CLR(2,:)); hold on;
-s14=plot(ax,.56,.25,'v','Color',CLR(2,:),'MarkerSize',6,'MarkerFaceColor',CLR(2,:)); hold on;
-s15=plot(ax,.56,.15,'^','Color',CLR(2,:),'MarkerSize',6,'MarkerFaceColor',CLR(2,:)); hold on;
-s16=plot(ax,.56,.05,'d','Color',CLR(2,:),'MarkerSize',6,'MarkerFaceColor',CLR(2,:)); hold on;
+
+s5=plot(ax,.56,.8,'o','Color',CLR(2,:),'MarkerSize',12,'LineWidth',2); hold on;
+s6=plot(ax,.56,.7,'v','Color',CLR(2,:),'MarkerSize',12,'LineWidth',2); hold on;
+s7=plot(ax,.56,.6,'^','Color',CLR(2,:),'MarkerSize',12,'LineWidth',2); hold on;
+s8=plot(ax,.56,.5,'d','Color',CLR(2,:),'MarkerSize',12,'LineWidth',2); hold on;
+
+
+s13=plot(ax,.56,.35,'o','Color',[.5 .5 .5],'MarkerSize',6,'MarkerFaceColor',[.5 .5 .5]); hold on;
+s14=plot(ax,.56,.25,'v','Color',[.5 .5 .5],'MarkerSize',6,'MarkerFaceColor',[.5 .5 .5]); hold on;
+s15=plot(ax,.56,.15,'^','Color',[.5 .5 .5],'MarkerSize',6,'MarkerFaceColor',[.5 .5 .5]); hold on;
+s16=plot(ax,.56,.05,'d','Color',[.5 .5 .5],'MarkerSize',6,'MarkerFaceColor',[.5 .5 .5]); hold on;
  
 text(.35,.9,'/dAk/');
 text(.50,.9,'/bAk/');
@@ -280,45 +294,44 @@ ylim([0 1]); xlim([0 1]);
 set(gca,'XTickLabel',[],'YTickLabel',[]);
 axis off
 
-% Use these results for table 6 and Figure 10
-save([path,'Hasselman2014_QDAresults.mat']);
+%%
+% RGB=get(h0,'ColorMap');
+% I = rgb2ind(RGB);
+% 
+% set(h0,'ColorMap',HSV);
 
-keep bootN observedGR MFMAX MFMIN DET LAM INH NOISY IA FS TOTcl
+% Use these results for table 6 and Figure 11
+% save([path,'Hasselman2014_QDAresults.mat']);
+grab('Hasselman2014_Figure11a',0)
+
+% keep bootN observedGR MFMAX MFMIN DET LAM INH NOISY IA FS TOTcl
 
 %Print to file (for some reason cannot use 'painters' renderer)
 % shg;
 % set(gcf, 'Color', 'w','PaperPositionMode', 'auto')
-% print('-deps2','-r300','Hasselman2014_Figure9')
+% print('-depsc2','-r300','Hasselman2014_Figure11')
+
 
 %% QDA based on labeling of average readers and dyslexic readers (M4)
+%
+% Uncomment to load results
+%load([path,'Hasselman2014_QDAresults.mat']);
 
 for i = 1:6
  
   switch i
   case 1
    featvec = [MFMAX; MFMIN];
-   rp1 = 1; rp2 = 2;
-   ax = ax1;
   case 2
    featvec = [DET; LAM];
-   rp1 = 3; rp2 = 4;
-   ax = ax2;
   case 3
    featvec = [INH; NOISY];
-   rp1 = 5; rp2 = 6;
-   ax = ax3;
   case 4
    featvec = [IA; NOISY];
-   rp1 = 7; rp2 = 6;
-   ax = ax4;
   case 5
    featvec = [FS; INH];
-   rp1 = 8; rp2 = 5;
-   ax=ax5;
   case 6
    featvec = [FS; IA];
-   rp1 = 8; rp2 = 7;
-   ax=ax6;
   end
    
  % AVERAGE labeling results
@@ -338,25 +351,27 @@ end
 keep observedGR TOTcl AVEcl DYScl
 
 %% Create Table 6 with Classifier results to paste into wordprocessor
- 
- for i = 1:6
+ f=length(TOTcl);
+ for i = 1:f
   tab(i,:) = [TOTcl(i).Perform(1) TOTcl(i).Confidence(1),...
    TOTcl(i).Perform(2) TOTcl(i).Confidence(2) TOTcl(i).Perform(3) TOTcl(i).Confidence(3)];
-  tab(i+5,:) = [AVEcl(i).Perform(1) AVEcl(i).Confidence(1)....
+  tab(i+f,:) = [AVEcl(i).Perform(1) AVEcl(i).Confidence(1)....
    AVEcl(i).Perform(2) AVEcl(i).Confidence(2) AVEcl(i).Perform(3) AVEcl(i).Confidence(3)];
-  tab(i+10,:) = [DYScl(i).Perform(1) DYScl(i).Confidence(1),...
+  tab(i+2*f,:) = [DYScl(i).Perform(1) DYScl(i).Confidence(1),...
    DYScl(i).Perform(2) DYScl(i).Confidence(2) DYScl(i).Perform(3) DYScl(i).Confidence(3)];
  end
  
  tab = tab.*100;
  Group = {'Sample','Average Readers','Dyslexic Readers'};
- Feature={'MFQpos / MFQneg','LAM / DET','HNR / RFTe','mxENV / RFTe','F2 / HNR','F2 / mxENV'};
+ Feature={'CVhq+ / CVhq-','LAM / DET','HNR / RFTe','mxENV / RFTe','F2 / HNR','F2 / mxENV'};
  
+ 
+ [r c]=size(tab);
  cnt=1;
  cnt2=1;
  % Copy and paste tabt into Excel or Numbers
- for i=1:15
-  if ((i==6)||(i==11))
+ for i=1:r
+  if ((i==c)||(i==2*c))
    cnt=cnt+1;
   end
   tabt{i,1} = Group{cnt};
@@ -364,7 +379,7 @@ keep observedGR TOTcl AVEcl DYScl
   for j=3:8
    tabt{i,j} = num2str(tab(i,j-2),'%3.1f%%');
   end
-  if cnt2==5
+  if cnt2==c
    cnt2=1;
   else
    cnt2=cnt2+1;
@@ -375,7 +390,7 @@ keep observedGR TOTcl AVEcl DYScl
  
  save('Hasselman2014_Table6.mat');
  
- %% Create Figure 9
+ %% Create Figure 11
 
  h1 = figure;
  maximize(h1);
@@ -415,7 +430,7 @@ for i=1:6
   
   switch cnt
    case 1
-    ylabel('MFQpos / MFQneg');
+    ylabel('CVhq+ / CVhq-');
    case 5
     ylabel('LAM / DET');
    case 9
@@ -431,4 +446,4 @@ for i=1:6
  end
 end
 
-grab('Hasselman2014_Figure9',0);
+grab('Hasselman2014_Figure11',0);

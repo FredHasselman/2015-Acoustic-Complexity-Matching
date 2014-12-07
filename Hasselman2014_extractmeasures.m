@@ -133,9 +133,9 @@ for mani = 1:length(manis)
  end
 end
 
-clear cnt cnt2 wavFile wavPath ext txtPath txtFile DELIMITER SKIP fid Path
-
-save([path,'Hasselman2104_stimfeatures.mat'],'stimuli','Formants');
+% clear cnt cnt2 wavFile wavPath ext txtPath txtFile DELIMITER SKIP fid Path
+% 
+% save([path,'Hasselman2104_stimfeatures.mat'],'stimuli','Formants');
 
 %% Get Envelope and Formant measures
 
@@ -208,7 +208,7 @@ for cnt = 1:40
   step = floor(length(stimuli(cnt).y)/lENV);
   tx   = prep(decimate(t,step),lENV);
   
-  % In figure 4.3 the envelope is exaggerated (scaled)
+  % In figure 3 the envelope is exaggerated (scaled)
   dsENV = dsENV.*150;
   
   % Get the zero crossings
@@ -261,7 +261,7 @@ save([path,'Hasselman2104_stimfeatures.mat'],'rpTS','-append');
 
 %% Calculate HNR based on resampled waveforms 
 
-for i= 1:40
+for i= 1:1
  
   %Create miraudio (MIR toolbox University of Jyv?skyl?)
  [mirAFile] = miraudio(rpTS(i).ts(:,2));
@@ -278,7 +278,7 @@ for i= 1:40
  [hnr] = mirinharmonicity(mirAFile,'f0',mirF0);
  HNR(i).HNR = mirgetdata(hnr);
  
- clear mirF0 mirAFile mirSFile hnr;
+ %clear mirF0 mirAFile mirSFile hnr;
  
 end
 
@@ -321,7 +321,7 @@ save([path,'Hasselman2104_stimfeatures.mat'],'rpSTATS','-append');
 
 scmin=6;
 scmax=12;
-ressc=40;
+ressc=30;
 
 scale=round(2.^[scmin:((scmax-scmin)/ressc):scmax]);
 
@@ -339,7 +339,7 @@ m=1;
   stimuliMF(i).y = stimuli(i).y;
   stimuliMF(i).t = [0:(1/stimuli(i).fs):(length(stimuliMF(i).y)-1)/stimuli(i).fs]';
   
-  [stimuliMF(i).IA, stimuliMF(i).IF] = hilbert2(stimuli(i).y,stimuli(i).fs);
+  [stimuliMF(i).IA, stimuliMF(i).IF] = hilbert2(stimuliMF(i).y,stimuli(i).fs);
 
   [mf(i).Hq,mf(i).tq,mf(i).hq,mf(i).Dq,mf(i).Fq]=MFDFA1(stimuliMF(i).IA,scale,qq,m,0);
   %plot(log2(scale),log2(mf(i).Fq(qq==1,:)./scale))
