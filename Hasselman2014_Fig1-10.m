@@ -1,4 +1,4 @@
-%% Supplementary Material to Hasselman (2014) "Classifying Complex Patterns into Speech Categories"
+%% Supplementary Material to Hasselman (2014) "Classifying Acoustic Signals into Speech Categories"
 %
 %%% Introduction
 % This is a demonstration script accompanying the article "Classifying Complex Patterns into Speech Categories". Its purpose is to
@@ -27,7 +27,7 @@
 % Created by: <http://www.fredhasselman.com/ *Fred Hasselman*> / 2011-2014
 % Affiliations: <http://www.ru.nl/bsi _Behavioural Science Institute_> - <http://www.ru.nl _Radboud University Nijmegen_>
 
-%% Create Figures 1 - 9
+%% Create Figures 1 - 10
 
 %%  PREP
 %
@@ -36,11 +36,12 @@
 
 % Change ... to the path on your machine where you stored the files
 % If you copied the dropbox folder from the OSF, current path should be Ok (on machines that allow tilde expansion)
-path='~/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/';
+source='~/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/';
+datPath=[source,'DATA/'];
 % This datafile contains the values that were used in the article
-load([path,'Hasselman2014_stimfeatures_ORI.mat']);
+load([datPath,'Hasselman2014_stimfeatures_ORI.mat']);
 
-%% Figure 1: F2 Slope
+%% Figure 2: F2 Slope
 
 h0=figure;
 maximize(h0);
@@ -161,10 +162,10 @@ h_7 = annotation('arrow',[.2 .84],[.05 .05],'HeadStyle','cback2','LineWidth',1.5
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX stimuliMF mf
 
 % Uncomment if you want to save a figure
- grab('Hasselman2014_Figure1',0)
+ grab('Hasselman2014_Figure2',0)
 
 
-%% Figure 2: maxENVELOPE Slope
+%% Figure 3: maxENVELOPE Slope
 %
 % Slope till max formant amplitude from stimulus onset and formant onset
 
@@ -256,9 +257,9 @@ h_7 = annotation('arrow',[.2 .84],[.05 .05],'HeadStyle','cback2','LineWidth',1.5
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX stimuliMF mf
 
 % Uncomment if you want to save a figure
-% grab('Hasselman2014_Figure2',0);
+% grab('Hasselman2014_Figure3',0);
 
-%% Figure 3: Rise and Fall Time Entropy
+%% Figure 4: Rise and Fall Time Entropy
 
 h0=figure;
 maximize(h0);
@@ -349,10 +350,10 @@ h_7 = annotation('arrow',[.2 .84],[.05 .05],'HeadStyle','cback2','LineWidth',1.5
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX stimuliMF mf
 
 % Uncomment if you want to save a figure
-% grab('Hasselman2014_Figure3',0);
+% grab('Hasselman2014_Figure4',0);
 
 
-%% Figure 4: Phase Space Reconstruction Example
+%% Figure 5: Phase Space Reconstruction Example
 
 cnt=10; ds=1;
 x = rpTS(cnt).ts(1:1024,2);
@@ -436,9 +437,9 @@ set([hc7 hc8 hc9],'MarkerFaceColor',[.7 .7 .7],'MarkerSize',8);
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX stimuliMF mf
 
 % Uncomment if you want to save a figure
-% grab('Hasselman2014_Figure4',0);
+% grab('Hasselman2014_Figure5',0);
 
-%% Figure 5 (LEFT): RP example
+%% Figure 6 (LEFT): RP example
 
 cnt=10; tau=6; m=3; e=.01; thr= 'rr';
 % Uncomment to calculate rahter than load the RP matrix
@@ -568,7 +569,7 @@ keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX stimuliMF mf
 % Uncomment if you want to save a figure
 % grab('Hasselman2014_Figure5',0);
 
-%% Figure 5 (RIGHT): RP RANDOM example
+%% Figure 6 (RIGHT): RP RANDOM example
 
 cnt=10; tau=6; m=3; e=.01; thr= 'rr';
 
@@ -698,10 +699,10 @@ set(h_s,'FitBoxToText','on');
 keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX stimuliMF mf
 
 % Uncomment if you want to save a figure
-% grab('Hasselman2014_Figure5r',0);
+% grab('Hasselman2014_Figure6r',0);
 
 
-%% Figure 6: RP plots
+%% Figure 7: RP plots
 
 ds = 2;
 h0=figure;
@@ -783,7 +784,7 @@ keep Formants HNR RTent SPEC STIM rpSTATS rpTS stimuli rpMTRX stimuliMF mf
 % Uncomment if you want to save a figure
 % grab('Hasselman2014_Figure6',0);
 
-%% Figure 7 - Explaining DFA
+%% Figure 8 - Explaining DFA
 
 scmin=6;
 scmax=12;
@@ -877,9 +878,9 @@ axis square
 
 % Uncomment to save for further processing in Vector Graphics Software
 % (e.g., Adobe Illustrator to add arrows and lines)
-grab('Hasselman2014_Figure7',0)
+grab('Hasselman2014_Figure8',0)
 
-%% Figure 8 Multifractal Detrended Fluctuation Analysis
+%% Figure 9 Multifractal Detrended Fluctuation Analysis
 
 h0=figure;
 maximize(h0);
@@ -1018,10 +1019,10 @@ set(h_4,'FitBoxToText','on');
 
 
 % Uncomment if you want to save a figure
-grab('Hasselman2014_Figure8',0)
+grab('Hasselman2014_Figure9',0)
 
 
-%% Figure 9 - Summary Figure
+%% Figure 1 - Summary Figure
 h0=figure;
 maximize(h0);
 
@@ -1267,7 +1268,7 @@ set(h_6,'FitBoxToText','on');
 h_7 = annotation('doublearrow',[.2 .84],[.05 .05],'HeadStyle','cback2','Head2Style','cback2','LineWidth',1.5);
 
 % Uncomment if you want to save a figure
-% grab('Hasselman2014_Figure9',0)
+% grab('Hasselman2014_Figure1',0)
 
 %% Figure 10: LOGIT predictions
 

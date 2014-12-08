@@ -1,4 +1,4 @@
-%% Supplementary Material to Hasselman (2014) "Classifying Complex Patterns into Speech Categories"
+%% Supplementary Material to Hasselman (2014) "Classifying Acoustic Signals into Speech Categories"
 %
 %%% Introduction
 % This is a demonstration script accompanying the fourth chapter of my dissertation (Beyond the Boundary). Its purpose is to

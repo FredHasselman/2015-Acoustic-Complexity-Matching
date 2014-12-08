@@ -1,8 +1,8 @@
-%% Supplementary Material to Hasselman (2014) "Classifying Complex Patterns into Speech Categories"
+%% Supplementary Material to Hasselman (2014) "Classifying Acoustic Signals into Speech Categories"
 %
 %%% Introduction
 % This code performs the Quadratic Discriminant Analysis on extracted features of the speech signal.
-% Use it to create Figure 9 and 10 and the data in Table 6
+% Use it to create Figure 11 and 12 and the data in Table 8
 %
 % This is not a proper function or toolbox, it is not optimized for speed or functionality or aestetics! 
 % Evaluate the code per Cell (using MATLAB's Cell Mode) and inspect the workspace to see what is going on.
@@ -35,7 +35,7 @@
 % omo
 
 % Change ... to the path on your machine where you stored the files
-path='~/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/';
+path='~/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/DATA/';
 load([path,'Hasselman2014_stimfeatures_ORI.mat']);
 load([path,'observedLOGIT.mat']);
 
@@ -294,15 +294,15 @@ ylim([0 1]); xlim([0 1]);
 set(gca,'XTickLabel',[],'YTickLabel',[]);
 axis off
 
-%%
+
 % RGB=get(h0,'ColorMap');
 % I = rgb2ind(RGB);
 % 
 % set(h0,'ColorMap',HSV);
 
-% Use these results for table 6 and Figure 11
+% Use these results for table 8 and Figure 11
 % save([path,'Hasselman2014_QDAresults.mat']);
-grab('Hasselman2014_Figure11a',0)
+grab('Hasselman2014_Figure11',0)
 
 % keep bootN observedGR MFMAX MFMIN DET LAM INH NOISY IA FS TOTcl
 
@@ -350,7 +350,7 @@ end
 
 keep observedGR TOTcl AVEcl DYScl
 
-%% Create Table 6 with Classifier results to paste into wordprocessor
+%% Create Table 8 with Classifier results to paste into wordprocessor
  f=length(TOTcl);
  for i = 1:f
   tab(i,:) = [TOTcl(i).Perform(1) TOTcl(i).Confidence(1),...
@@ -390,7 +390,7 @@ keep observedGR TOTcl AVEcl DYScl
  
  save('Hasselman2014_Table6.mat');
  
- %% Create Figure 11
+ %% Create Figure 12
 
  h1 = figure;
  maximize(h1);
@@ -446,4 +446,4 @@ for i=1:6
  end
 end
 
-grab('Hasselman2014_Figure11',0);
+grab('Hasselman2014_Figure12',0);
