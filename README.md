@@ -2,10 +2,10 @@ Classifying Acoustic Signals into Phoneme Categories
 ===============
 ### Average and Dyslexic Readers Make Use Of Complex Dynamical Patterns
 
-Supplemenral materials to:
+This Github repository contains MatLab scripts to recreate analyses and figures used in the article.
+Most scripts will need data files that are available at the [OSF project](https://osf.io/a8g32). See the project Wiki pages for details.
 
-The Github repository contains MatLab scripts to recreate analyses and figures.
-The OSF project (https://osf.io/a8g32) links to files in dropbox and containt '.mat' data files needed by the scripts.
+
 
 
 Fred Hasselman 2014
