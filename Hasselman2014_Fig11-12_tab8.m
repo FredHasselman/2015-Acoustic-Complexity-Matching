@@ -1,33 +1,34 @@
 %% Supplementary Material to Hasselman (2014) "Classifying Acoustic Signals into Speech Categories"
 %
-%%% Introduction
+%%%%%%%%%%%%%% MARKDOWN CODE %%%%%%%%%%%%%%
+%
+% ### Introduction
 % This code performs the Quadratic Discriminant Analysis on extracted features of the speech signal.
 % Use it to create Figure 11 and 12 and the data in Table 8
-%
+% 
 % This is not a proper function or toolbox, it is not optimized for speed or functionality or aestetics! 
 % Evaluate the code per Cell (using MATLAB's Cell Mode) and inspect the workspace to see what is going on.
-%
+% 
 % It is possible your monitor size will influence figure legibility.
-%
-% OSF project contains links to all the files: <https:osf.io/a8g32>
-
-
-%% Data / Toolboxes / Scripts, etc. that need to be on the MATLAB PATH
-%
-% * QDA code by Max Little (<http://www.maxlittle.net/home/index.php Homepage>) used in:
-% M.A. Little, P.E. McSharry, I.M. Moroz, S.J. Roberts (2006). Nonlinear,
-% Biophysically-Informed Speech Pathology Detection in Proceedings of IEEE ICASSP
-% 2006, IEEE Publishers: Toulouse, France.
-% * Several helper scripts and data files created and authored by Fred Hasselman included in the GitHub repository
-% * Fred's toolbox: <https://github.com/FredHasselman/toolboxML>
-
-%% Author / Version / License
-%
-% OSF Project Page: <https:osf.io/a8g32>
-% Repository: <https://github.com/FredHasselman/Hasselman2014-PeerJ-Classifying-Complex-Patterns *on GitHub*>
-%
-% Created by: <http://www.fredhasselman.com/ *Fred Hasselman*> / 2011-2014
-% Affiliations: <http://www.ru.nl/bsi _Behavioural Science Institute_> - <http://www.ru.nl _Radboud University Nijmegen_>
+% 
+% OSF project contains links to all the files: https://osf.io/a8g32
+% 
+% ----------
+% 
+% ### Data / Toolboxes / Scripts, etc. that need to be on the MATLAB PATH
+% 
+% * [QDA code](http://www.maxlittle.net/home/index.php)  by Max Little used in: [M.A. Little, P.E. McSharry, S.J. Roberts, D.A.E. Costello, I.M. Moroz (2007). Exploiting nonlinear recurrence and fractal scaling properties for voice disorder detection, *BioMedical Engineering OnLine* 6:23](http://www.maxlittle.net/publications/bmeo.pdf)
+% * [Fred's toolbox](https://github.com/FredHasselman/toolboxML) on GitHub
+% * Scripts are available in a [GithHub repository](https://github.com/FredHasselman/Acoustic-Complexity-Matching)
+% * Data Files are available at the [Open Science Framework](https://osf.io/a8g32/files) or directly from [Dropbox](https://www.dropbox.com/sh/i1vp0nlsj3mi3v7/AAD6V5WaQLdmEBTFRIzAqQm8a?dl=0)
+% 
+% 
+% ### Author / Version / License    
+%      
+% Created by: [Fred Hasselman 2011-2014](http://www.fredhasselman.com)    
+% Affiliations: [School of Pedagogical and Educational Science](http://www.ru.nl/pwo) and [Behavioural Science Institute (Learning & Plasticity)](http://www.ru.nl/bsi) at the [Radboud University Nijmegen, the Netherlands](http://www.ru.nl)
+% 
+%%%%%%%%%%%%%% MARKDOWN CODE %%%%%%%%%%%%%%
 
 %% PREP
 
@@ -35,9 +36,10 @@
 % omo
 
 % Change ... to the path on your machine where you stored the files
-path='~/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/DATA/';
-load([path,'Hasselman2014_stimfeatures_ORI.mat']);
-load([path,'observedLOGIT.mat']);
+source='~/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/';
+datPath = [source,'DATA/'];
+load([datPath,'Hasselman2014_stimfeatures_ORI.mat']);
+load([datPath,'observedLOGIT.mat']);
 
 % Method to use for Discriminant analysis
 method = 'quadratic';
@@ -67,8 +69,6 @@ markr= ['o','v','^','d'];
 CLR  = [0 0 0;.5 .5 .5];
 CLR2 = [.3 .3 .3;.7 .7 .7];
 
-% cm = colormap([CLR;CLR2]);
-
 indM = [1:10;11:20;21:30;31:40];
 indT = [1 10;11 20;21 30;31 40];
 
@@ -86,7 +86,6 @@ for s = 1:length(observed)
   clrT(s,:)   = CLR(1,:);
  end
 end
-
 
 % Get the measures
 for i = 1:40
@@ -294,27 +293,17 @@ ylim([0 1]); xlim([0 1]);
 set(gca,'XTickLabel',[],'YTickLabel',[]);
 axis off
 
+% Uncomment to save the Figure
+% patch2ind(gcf) % This is necessary in order to use 'Renderer','painters' with patch object.
+% grab('Hasselman2014_Figure11',0)
 
-% RGB=get(h0,'ColorMap');
-% I = rgb2ind(RGB);
-% 
-% set(h0,'ColorMap',HSV);
+keep source datPath bootN method observedGR MFMAX MFMIN DET LAM INH NOISY IA FS TOTcl
 
-% Use these results for table 8 and Figure 11
-% save([path,'Hasselman2014_QDAresults.mat']);
-grab('Hasselman2014_Figure11',0)
-
-% keep bootN observedGR MFMAX MFMIN DET LAM INH NOISY IA FS TOTcl
-
-%Print to file (for some reason cannot use 'painters' renderer)
-% shg;
-% set(gcf, 'Color', 'w','PaperPositionMode', 'auto')
-% print('-depsc2','-r300','Hasselman2014_Figure11')
-
+% Use these results for table 8 and Figure 12
+%save([datPath,'Hasselman2014_QDAresults.mat']);
 
 %% QDA based on labeling of average readers and dyslexic readers (M4)
-%
-% Uncomment to load results
+% Uncomment to load variables
 %load([path,'Hasselman2014_QDAresults.mat']);
 
 for i = 1:6
@@ -351,6 +340,9 @@ end
 keep observedGR TOTcl AVEcl DYScl
 
 %% Create Table 8 with Classifier results to paste into wordprocessor
+% Uncomment to load results
+%load([path,'Hasselman2014_QDAresults.mat']);
+
  f=length(TOTcl);
  for i = 1:f
   tab(i,:) = [TOTcl(i).Perform(1) TOTcl(i).Confidence(1),...
@@ -388,7 +380,7 @@ keep observedGR TOTcl AVEcl DYScl
  
  clear i j 
  
- save('Hasselman2014_Table6.mat');
+ save('Hasselman2014_Table8.mat');
  
  %% Create Figure 12
 

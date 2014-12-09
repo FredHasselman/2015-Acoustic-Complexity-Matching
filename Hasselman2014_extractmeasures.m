@@ -1,38 +1,39 @@
-%% Supplementary Material to Hasselman (2014) "Classifying Acoustic Signals into Speech Categories"
+% Supplementary Material to Hasselman (2014) "Classifying Acoustic Signals into Speech Categories"
+
+%%%%%%%%%%%%%% MARKDOWN CODE %%%%%%%%%%%%%%
 %
-%%% Introduction
+% ### Introduction
 % This is a demonstration script accompanying the fourth chapter of my dissertation (Beyond the Boundary). Its purpose is to
 % provide an example of how to use various freely available MATLAB sources on the web to extract variables from speech
 % stimuli. This script should thus be used as an example to build your own scripts only. It is not a function or toolbox, not
 % optimized for speed or functionality! Evaluate the code per Cell (using MATLAB's Cell Mode) and inspect the workspace to
 % see what is going on.
-%
+% 
 % Extracts spectral and pitch data, formant sweeps and amplitude envelopes and various measures of temporal evolution of the
 % signal.
+% 
+% Results should be comparable to those obtained by [Praat](http://www.praat.org) (Boersma & Weeninck).
+% 
+% ### Data / Toolboxes / Scripts, etc. that need to be on the MATLAB PATH   
+%    
+% * The [Signal processing toolbox](http://www.mathworks.com) by the Mathworks
+% * [`hilbert2.m` and `derivative.m`](http://www.mathworks.com/matlabcentral/fileexchange/authors/110216) by Scott McKinney
+% * The [Sound Processing Toolbox](http://note.sonots.com/SciSoftware/Pitch.html) by Naotoshi Seo 
+% * [MIR toolbox](https://www.jyu.fi/hum/laitokset/musiikki/en/research/coe/materials/mirtoolbox/mirtoolbox) created by departement of Music at the University of Jyvskyl Finland
+% * [`crossing.m`](http://www.mathworks.nl/matlabcentral/fileexchange/2432-crossing) by Steffen Brueckner
+% * [CRP Toolbox](http://tocsy.pik-potsdam.de/CRPtoolbox/) by Norbert Marwan. Note that an edited scriptfile `crp_edit.m` in the [GithHub repository](https://github.com/FredHasselman/Acoustic-Complexity-Matching) is needed to extract the RQA threshold values.
+% * `MFDFA1.m` available as part of the [Multifractal Toolbox](http://www.ntnu.edu/inm/geri/software). Download the [Introduction to MFDFA (zip-file)](http://www.ntnu.edu/documents/170234/1315232/Introduction_to_MFDFA4.zip). Detailed instruction are available in [Ihlen, E.A.F. (2012). FrontiersIn Fractal Physiology, 3(141), 1-18](http://www.ntnu.edu/documents/170234/1315232/Introduction_to_MFDFA.pdf)
+% * [Fred's toolbox](https://github.com/FredHasselman/toolboxML) on GitHub
+% * **DATA** available at [Open Science Framework](https://osf.io/hpjse/files/) or directly from [Dropbox](https://www.dropbox.com/sh/i1vp0nlsj3mi3v7/AAD6V5WaQLdmEBTFRIzAqQm8a?dl=0)
+% * **STIMULI** available at [Open Science Framework](https://osf.io/hpjse/files/) or directly from [Dropbox](https://www.dropbox.com/sh/i1vp0nlsj3mi3v7/AAD6V5WaQLdmEBTFRIzAqQm8a?dl=0)
+% * Scripts are available in a [GithHub repository](https://github.com/FredHasselman/Acoustic-Complexity-Matching)
+%     
+% ### Author / Version / License    
+%      
+% Created by: [Fred Hasselman 2011-2014](http://www.fredhasselman.com)    
+% Affiliations: [School of Pedagogical and Educational Science](http://www.ru.nl/pwo) and [Behavioural Science Institute (Learning & Plasticity)](http://www.ru.nl/bsi) at the [Radboud University Nijmegen, the Netherlands](http://www.ru.nl)
 %
-% Results should be comparable to those obtained by <http://www.praat.org Praat> (Boersma & Weeninck).
-
-%% Data / Toolboxes / Scripts, etc. that need to be on the MATLAB PATH
-%
-% * Signal processing toolbox (<http://www.mathworks.com MathWorks>)
-% * HILBERT2 and DERIVATIVE by Scott McKinney (<http://www.mathworks.com/matlabcentral/fileexchange/authors/110216
-% FileExchange>)
-% * The Sound Processing Toolbox by Naotoshi Seo (<http://note.sonots.com/SciSoftware/Pitch.html SciSoftware>)
-% * MIR toolbox created by departement of Music at the University of Jyv?skyl? Finland
-% (<https://www.jyu.fi/hum/laitokset/musiikki/en/research/coe/materials/mirtoolbox/mirtoolbox MIR>)
-% * CROSSING by Steffen Brueckner (<http://www.mathworks.nl/matlabcentral/fileexchange/2432-crossing>)
-% * CRP Toolbox by Norbert Marwan (<http://tocsy.pik-potsdam.de/CRPtoolbox/>)
-% * MFDFA1.m by E. Ihlen (<http://www.ntnu.edu/inm/geri/software>)
-% * Fred's toolbox: <https://github.com/FredHasselman/toolboxML>
-% * Stimuli, data and Formant tracks are available on this OSF Project Page: <https:osf.io/a8g32>
-
-%% Author / Version / License
-%
-% OSF Project Page: <https:osf.io/a8g32>
-% Repository: <https://github.com/FredHasselman/Hasselman2014-PeerJ-Classifying-Complex-Patterns *BTB Chapter 4 on GitHub*>
-%
-% Created by: <http://www.fredhasselman.com/ *Fred Hasselman*> / 2011-2014
-% Affiliations: <http://www.ru.nl/bsi _Behavioural Science Institute_> - <http://www.ru.nl _Radboud University Nijmegen_>
+%%%%%%%%%%%%%% MARKDOWN CODE %%%%%%%%%%%%%%
 
 %% PREP: SETTINGS
 % Reads .WAV data and performs spectral, envelope and pitch analyses.

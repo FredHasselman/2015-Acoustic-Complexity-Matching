@@ -1,44 +1,39 @@
-%% Supplementary Material to Hasselman (2014) "Classifying Acoustic Signals into Speech Categories"
+% Supplementary Material to Hasselman (2014) "Classifying Acoustic Signals into Speech Categories"
+
+%%%%%%%%%%%%%% MARKDOWN CODE %%%%%%%%%%%%%%
 %
-%%% Introduction
-% This is a demonstration script accompanying the article "Classifying Complex Patterns into Speech Categories". Its purpose is to
+% ### Introduction
+% This is a demonstration script accompanying the article "Classifying Acoustic Signals into Speech Categories". Its purpose is to
 % provide an example of how to use various freely available MATLAB sources on the web to extract variables from speech
 % stimuli. This script should thus be used as an example to build your own scripts only. It is not a function or toolbox, not
 % optimized for speed or functionality! Evaluate the code per Cell (using MATLAB's Cell Mode) and inspect the workspace to
 % see what is going on.
+% 
+% This OSF project page contains links to all the files: https://osf.io/a8g32
+% 
+% ### Data / Toolboxes / Scripts, etc. that need to be on the MATLAB PATH   
+% 
+% * [Fred's toolbox](https://github.com/FredHasselman/toolboxML) on GitHub
+% * Scripts are available in a [GithHub repository](https://github.com/FredHasselman/Acoustic-Complexity-Matching)
+% * Data Files are available at the [Open Science Framework](https://osf.io/a8g32/files)  
+% 
+% ### Author / Version / License    
+%      
+% Created by: [Fred Hasselman 2011-2014](http://www.fredhasselman.com)    
+% Affiliations: [School of Pedagogical and Educational Science](http://www.ru.nl/pwo) and [Behavioural Science Institute (Learning & Plasticity)](http://www.ru.nl/bsi) at the [Radboud University Nijmegen, the Netherlands](http://www.ru.nl)
 %
-% OSF project contains links to all the files: <https:osf.io/a8g32>
-
-%% Data / Toolboxes / Scripts used
-%
-% * CRP Toolbox by Norbert Marwan (<http://tocsy.pik-potsdam.de/CRPtoolbox/>)
-% * Ihlen(2012). Introduction to MFDFA, FrontiersIn Fractal Physiology, 3(141), 1-18.
-% <http://www.ntnu.edu/documents/170234/1315232/Introduction_to_MFDFA.pdf>
-% * Fred's toolbox: https://github.com/FredHasselman/toolboxML
-% * 
-% * Scripts and Wave File Stimuli are available in the GithHub repository: <https://github.com/FredHasselman/Hasselman2014-PeerJ-Classifying-Complex-Patterns> 
-% * Data Files are available at this OSF project page: <https:osf.io/a8g32>
-
-%% Author / Version / License
-%
-% OSF Project Page: <https:osf.io/a8g32>
-% Repository: <https://github.com/FredHasselman/Hasselman2014-PeerJ-Classifying-Complex-Patterns>// *Hasselman2014 on GitHub*>
-%
-% Created by: <http://www.fredhasselman.com/ *Fred Hasselman*> / 2011-2014
-% Affiliations: <http://www.ru.nl/bsi _Behavioural Science Institute_> - <http://www.ru.nl _Radboud University Nijmegen_>
-
-%% Create Figures 1 - 10
+%%%%%%%%%%%%%% MARKDOWN CODE %%%%%%%%%%%%%%
 
 %%  PREP
-%
-% Uncomment next line to clear and close everything... detergent grade!
-% omo
 
-% Change ... to the path on your machine where you stored the files
-% If you copied the dropbox folder from the OSF, current path should be Ok (on machines that allow tilde expansion)
+Uncomment next line to clear and close everything... detergent grade!
+omo
+
+Change ... to the path on your machine where you stored the files
+If you copied the dropbox folder from the OSF, current path should be Ok (on machines that allow tilde expansion)
 source='~/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/';
 datPath=[source,'DATA/'];
-% This datafile contains the values that were used in the article
+This datafile contains the values that were used in the article
 load([datPath,'Hasselman2014_stimfeatures_ORI.mat']);
 
 %% Figure 2: F2 Slope
