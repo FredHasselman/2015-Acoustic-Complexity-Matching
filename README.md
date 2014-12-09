@@ -30,7 +30,7 @@ Affiliations: [School of Pedagogical and Educational Science](http://www.ru.nl/p
 * [QDA code by Max Little](http://www.maxlittle.net/home/index.php Homepage) used in: M.A. Little, P.E. McSharry, I.M. Moroz, S.J. Roberts (2006). Nonlinear, Biophysically-Informed Speech Pathology Detection in Proceedings of IEEE ICASSP 2006, IEEE Publishers: Toulouse, France.
 * [Fred's toolbox](https://github.com/FredHasselman/toolboxML) on GitHub
 * Scripts are available in a [GithHub repository](https://github.com/FredHasselman/Acoustic-Complexity-Matching)
-* Data Files are available at the [Open Science Framework](https://osf.io/a8g32)  
+* Data Files are available at the [Open Science Framework](https://osf.io/a8g32) or directly from [Dropbox](https://www.dropbox.com/sh/i1vp0nlsj3mi3v7/AAD6V5WaQLdmEBTFRIzAqQm8a?dl=0)
 
 #### Author / Version / License
 
