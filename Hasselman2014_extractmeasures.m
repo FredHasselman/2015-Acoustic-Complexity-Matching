@@ -45,11 +45,12 @@
 manis     = {'BAKDAK', 'BAKDAKV', 'BAKDAKA', 'BAKDAKB'};
 stims     = 10;
 
-% Change 'Path' to the path on your machine where you stored the files
-% If you copied the dropbox folder from the OSF, current path should be Ok (on machines that allow tilde expansion)
+% Change 'source' to the path on your machine where you stored the files
+% If you copied the dropbox folder from the OSF to your own dropbox, the current path should be Ok (on machines that allow tilde expansion)
 source='~/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/';
 wavPath   = [source '/STIMULI/'];
 txtPath   = [source '/FORMANT TABLES/'];
+datPat    = [source '/DATA/'];
 ext       = '.WAV';
 
 DELIMITER = '\t';
@@ -90,14 +91,10 @@ SPEC.d  = gcd(2*SPEC.mf,SPEC.fs); % Get smallest integer conversion ratio
 SPEC.p  = (2*SPEC.mf)/SPEC.d;     % Resample to   factor for LPC
 SPEC.q  = SPEC.fs/SPEC.d;         % Resample from factor for LPC
 
-
 % CHECK SETTINGS
 %
 % * *Check frequency vector:* [f(1) f(end)]
 % * *Check the window properties:* wvtool(SPEC.window)
-%%
-% Change path to where you want to store the files
-path=[pwd,'/'];
 
 %% Load the .WAV files into MATLAB
 
@@ -134,9 +131,9 @@ for mani = 1:length(manis)
  end
 end
 
-% clear cnt cnt2 wavFile wavPath ext txtPath txtFile DELIMITER SKIP fid Path
-% 
-% save([path,'Hasselman2104_stimfeatures.mat'],'stimuli','Formants');
+ clear cnt cnt2 wavFile wavPath ext txtPath txtFile DELIMITER SKIP fid
+ 
+ save([datPath,'Hasselman2104_stimfeatures.mat'],'stimuli','Formants');
 
 %% Get Envelope and Formant measures
 
@@ -188,7 +185,7 @@ end % for mani
 
 clear cnt mani manis stim stims
 
-save([path,'Hasselman2104_stimfeatures.mat'],'SPEC','STIM','-append');
+save([datPath,'Hasselman2104_stimfeatures.mat'],'SPEC','STIM','-append');
 
 %% Get Rise and Fall Time Entropy using MIR toolbox (MIR will smooth and resample Hilbert transform)
 
@@ -223,7 +220,7 @@ end
 
 clear cnt 
 
-save([path,'Hasselman2104_stimfeatures.mat'],'RTent','-append');
+save([datPath,'Hasselman2104_stimfeatures.mat'],'RTent','-append');
 
 %% Create TS with equal samples, normalized to [-1 1] for HNR and RQA
 
@@ -258,7 +255,7 @@ end
 
 clear i
 
-save([path,'Hasselman2104_stimfeatures.mat'],'rpTS','-append');
+save([datPath,'Hasselman2104_stimfeatures.mat'],'rpTS','-append');
 
 %% Calculate HNR based on resampled waveforms 
 
@@ -279,17 +276,18 @@ for i= 1:1
  [hnr] = mirinharmonicity(mirAFile,'f0',mirF0);
  HNR(i).HNR = mirgetdata(hnr);
  
- %clear mirF0 mirAFile mirSFile hnr;
+ clear mirF0 mirAFile mirSFile hnr;
  
 end
 
 clear i
 
-save([path,'Hasselman2104_stimfeatures.mat'],'HNR','-append');
+save([datPath,'Hasselman2104_stimfeatures.mat'],'HNR','-append');
 
 
 %% Calculate RECURRENCE MEASURES
-% WARNING - this takes a long time to compute!
+% !!!!!WARNING!!!!!!
+% This will take a long time to compute!
 
 rpSTATS = zeros(40,14);
 
@@ -311,11 +309,12 @@ end
 
 clear tau thr e i m W WS LMIN VMIN TW
 
-save([path,'Hasselman2104_stimfeatures.mat'],'rpSTATS','-append');
+save([datPath,'Hasselman2104_stimfeatures.mat'],'rpSTATS','-append');
 
 %%  Get MULTIFRACTAL SPECTRUM
 % Makes use of the Multifractal Detrended Fluctuation Analysis code MFDFA1.m by E. Ihlen.
 % The code is availale here: http://www.ntnu.edu/inm/geri/software
+%
 % An article descibing the MFDFA technique and how to use the code:
 % Ihlen(2012). Introduction to MFDFA, FrontiersIn Fractal Physiology, 3(141), 1-18.
 % http://www.ntnu.edu/documents/170234/1315232/Introduction_to_MFDFA.pdf
@@ -334,7 +333,6 @@ qq = linspace(qmin,qmax,qres);
 
 m=1;
 
-
  for i = 1:40
   
   stimuliMF(i).y = stimuli(i).y;
@@ -347,6 +345,4 @@ m=1;
   
  end
  
-save([path,'Hasselman2104_stimfeatures.mat'],'mf','stimuliMF','-append');
-
-
+save([datPath,'Hasselman2104_stimfeatures.mat'],'mf','stimuliMF','-append');
