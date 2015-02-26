@@ -1,4 +1,4 @@
-function [env freq] = hilbert2(x,Fs)
+function [env, freq] = hilbert2(x,Fs)
 % HILBERT2 Extract instantaneous envelope and frequency from a bandlimited
 % signal via Hilbert transform. 
 % 

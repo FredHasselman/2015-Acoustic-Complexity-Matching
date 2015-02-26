@@ -8,17 +8,17 @@
 % stimuli. This script should thus be used as an example to build your own scripts only. It is not a function or toolbox, not
 % optimized for speed or functionality! Evaluate the code per Cell (using MATLAB's Cell Mode) and inspect the workspace to
 % see what is going on.
-% 
+%
 % Extracts spectral and pitch data, formant sweeps and amplitude envelopes and various measures of temporal evolution of the
 % signal.
-% 
+%
 % Results should be comparable to those obtained by [Praat](http://www.praat.org) (Boersma & Weeninck).
-% 
-% ### Data / Toolboxes / Scripts, etc. that need to be on the MATLAB PATH   
-%    
+%
+% ### Data / Toolboxes / Scripts, etc. that need to be on the MATLAB PATH
+%
 % * The [Signal processing toolbox](http://www.mathworks.com) by the Mathworks
 % * [`hilbert2.m` and `derivative.m`](http://www.mathworks.com/matlabcentral/fileexchange/authors/110216) by Scott McKinney
-% * The [Sound Processing Toolbox](http://note.sonots.com/SciSoftware/Pitch.html) by Naotoshi Seo 
+% * The [Sound Processing Toolbox](http://note.sonots.com/SciSoftware/Pitch.html) by Naotoshi Seo
 % * [MIR toolbox](https://www.jyu.fi/hum/laitokset/musiikki/en/research/coe/materials/mirtoolbox/mirtoolbox) created by departement of Music at the University of Jyvskyl Finland
 % * [`crossing.m`](http://www.mathworks.nl/matlabcentral/fileexchange/2432-crossing) by Steffen Brueckner
 % * [CRP Toolbox](http://tocsy.pik-potsdam.de/CRPtoolbox/) by Norbert Marwan. Note that an edited scriptfile `crp_edit.m` in the [GithHub repository](https://github.com/FredHasselman/Acoustic-Complexity-Matching) is needed to extract the RQA threshold values.
@@ -27,10 +27,10 @@
 % * **DATA** available at [Open Science Framework](https://osf.io/hpjse/files/) or directly from [Dropbox](https://www.dropbox.com/sh/i1vp0nlsj3mi3v7/AAD6V5WaQLdmEBTFRIzAqQm8a?dl=0)
 % * **STIMULI** available at [Open Science Framework](https://osf.io/hpjse/files/) or directly from [Dropbox](https://www.dropbox.com/sh/i1vp0nlsj3mi3v7/AAD6V5WaQLdmEBTFRIzAqQm8a?dl=0)
 % * Scripts are available in a [GithHub repository](https://github.com/FredHasselman/Acoustic-Complexity-Matching)
-%     
-% ### Author / Version / License    
-%      
-% Created by: [Fred Hasselman 2011-2014](http://www.fredhasselman.com)    
+%
+% ### Author / Version / License
+%
+% Created by: [Fred Hasselman 2011-2014](http://www.fredhasselman.com)
 % Affiliations: [School of Pedagogical and Educational Science](http://www.ru.nl/pwo) and [Behavioural Science Institute (Learning & Plasticity)](http://www.ru.nl/bsi) at the [Radboud University Nijmegen, the Netherlands](http://www.ru.nl)
 %
 %%%%%%%%%%%%%% MARKDOWN CODE %%%%%%%%%%%%%%
@@ -38,8 +38,8 @@
 %% PREP: SETTINGS
 % Reads .WAV data and performs spectral, envelope and pitch analyses.
 
-% Change these variables to reflect your datafile names and locations. 
-% Here there are four different manipulations (manis) of a 
+% Change these variables to reflect your datafile names and locations.
+% Here there are four different manipulations (manis) of a
 % 10-step continuum (stims), with files named accordingly.
 
 manis     = {'BAKDAK', 'BAKDAKV', 'BAKDAKA', 'BAKDAKB'};
@@ -50,7 +50,7 @@ stims     = 10;
 source='~/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/';
 wavPath   = [source '/STIMULI/'];
 txtPath   = [source '/FORMANT TABLES/'];
-datPat    = [source '/DATA/'];
+datPath   = [source '/DATA/'];
 ext       = '.WAV';
 
 DELIMITER = '\t';
@@ -60,20 +60,20 @@ SKIP      = '--undefined--';
 SPEC.fs        = 44100;     % Or read from file, see for loop below
 SPEC.ts        = .002;      % Praat settings: Time step         (s)
 SPEC.wl        = .005;      % Praat settings: Window length     (s)
-SPEC.mf        = 5500;      % Praat settings: Maximum frequency (Hz) 
+SPEC.mf        = 5500;      % Praat settings: Maximum frequency (Hz)
 SPEC.sf        = 20;        % Praat settings: Frequency step    (Hz)
 
 %%% Praat default behaviour
 %
-% Praat changes Frequencey step (|sf|) and Time step (|ts|) to the most 
+% Praat changes Frequencey step (|sf|) and Time step (|ts|) to the most
 % sensible minimal values given current Window length (wl) in the case they
 % were set too low by the user.
 
 if SPEC.ts < SPEC.wl/(8*sqrt(pi))
-SPEC.ts = SPEC.wl/(8*sqrt(pi));
+ SPEC.ts = SPEC.wl/(8*sqrt(pi));
 end
 if SPEC.sf < (sqrt(pi)/8/SPEC.wl)
-SPEC.sf = (sqrt(pi)/8/SPEC.wl);
+ SPEC.sf = (sqrt(pi)/8/SPEC.wl);
 end
 
 SPEC.f       = 1:SPEC.sf:SPEC.mf; % Spectrogram will be est. at freqs in SPEC.f
@@ -116,24 +116,24 @@ for mani = 1:length(manis)
   else
    disp(wavFile)
   end
-   
-   % Read Praat Formant track files
-   if exist(txtFile,'file')
-    cnt2=cnt2+1;
-    fid=fopen(txtFile,'r');
-    Formants(cnt2).tracks = textscan(fid,'%*s %f %f %f %f %f %f %f %f','TreatAsEmpty',SKIP,'HeaderLines',1);
-    Formants(cnt2).name = txtFile;
-    fclose(fid);
-   else
-    disp(txtFile);
-   end
-   
+  
+  % Read Praat Formant track files
+  if exist(txtFile,'file')
+   cnt2=cnt2+1;
+   fid=fopen(txtFile,'r');
+   Formants(cnt2).tracks = textscan(fid,'%*s %f %f %f %f %f %f %f %f','TreatAsEmpty',SKIP,'HeaderLines',1);
+   Formants(cnt2).name = txtFile;
+   fclose(fid);
+  else
+   disp(txtFile);
+  end
+  
  end
 end
 
- clear cnt cnt2 wavFile wavPath ext txtPath txtFile DELIMITER SKIP fid
- 
- save([datPath,'Hasselman2104_stimfeatures.mat'],'stimuli','Formants');
+clear cnt cnt2 wavFile wavPath ext txtPath txtFile DELIMITER SKIP fid
+
+save([datPath,'Hasselman2104_stimfeatures.mat'],'stimuli','Formants');
 
 %% Get Envelope and Formant measures
 
@@ -190,35 +190,35 @@ save([datPath,'Hasselman2104_stimfeatures.mat'],'SPEC','STIM','-append');
 %% Get Rise and Fall Time Entropy using MIR toolbox (MIR will smooth and resample Hilbert transform)
 
 for cnt = 1:40
-   
-  % Create miraudio
-  [mirAFile] = miraudio(stimuli(cnt).y);
-  
-  % Get MIRenvelope (Hilbert transform)
-  [mirENV] = mirenvelope(mirAFile);
-  sENV     = mirgetdata(mirENV);
-  t        = (1:length(stimuli(cnt).y))./stimuli(cnt).fs;
-  
-  dsENV = derivative(sENV);
-  lENV  = length(dsENV);
-  
-  % Resample time vector
-  step = floor(length(stimuli(cnt).y)/lENV);
-  tx   = prep(decimate(t,step),lENV);
-  
-  % In figure 3 the envelope is exaggerated (scaled)
-  dsENV = dsENV.*150;
-  
-  % Get the zero crossings
-  [~,t0,~] = crossing(dsENV,tx);
-  t0 = [0 t0];
-  RTent(cnt) = entropy(nonzeros(sort(round(diff(t0)*1000),'ascend')));
-  
-  clear dsENV sENV lENV step t0 t tx mirAFile mirENV
-  
+ 
+ % Create miraudio
+ [mirAFile] = miraudio(stimuli(cnt).y);
+ 
+ % Get MIRenvelope (Hilbert transform)
+ [mirENV] = mirenvelope(mirAFile);
+ sENV     = mirgetdata(mirENV);
+ t        = (1:length(stimuli(cnt).y))./stimuli(cnt).fs;
+ 
+ dsENV = derivative(sENV);
+ lENV  = length(dsENV);
+ 
+ % Resample time vector
+ step = floor(length(stimuli(cnt).y)/lENV);
+ tx   = prep(decimate(t,step),lENV);
+ 
+ % In figure 3 the envelope is exaggerated (scaled)
+ dsENV = dsENV.*150;
+ 
+ % Get the zero crossings
+ [~,t0,~] = crossing(dsENV,tx);
+ t0 = [0 t0];
+ RTent(cnt) = entropy(nonzeros(sort(round(diff(t0)*1000),'ascend')));
+ 
+ clear dsENV sENV lENV step t0 t tx mirAFile mirENV
+ 
 end
 
-clear cnt 
+clear cnt
 
 save([datPath,'Hasselman2104_stimfeatures.mat'],'RTent','-append');
 
@@ -257,11 +257,11 @@ clear i
 
 save([datPath,'Hasselman2104_stimfeatures.mat'],'rpTS','-append');
 
-%% Calculate HNR based on resampled waveforms 
+%% Calculate HNR based on resampled waveforms
 
 for i= 1:1
  
-  %Create miraudio (MIR toolbox University of Jyv?skyl?)
+ %Create miraudio (MIR toolbox University of Jyv?skyl?)
  [mirAFile] = miraudio(rpTS(i).ts(:,2));
  [mirSFile] = mirspectrum(mirAFile,'Frame',SPEC.ts,'Min',...
   SPEC.f(1),'Max',max(SPEC.f),'Window',SPEC.wintype,'Res',SPEC.sf);
@@ -293,7 +293,7 @@ rpSTATS = zeros(40,14);
 
 %RQA settings (based on Mutual Information and Nearest Neigbour analysis)
 tau=6;m=3; e=.01;W=[];WS=[];LMIN=2;VMIN=2;TW=0;thr= 'rr';
- 
+
 for i=1:40
  
  % Get RP for plotting and threshold of Fixed RR using an adaptation of the
@@ -301,7 +301,7 @@ for i=1:40
  % file available at GitHub as crp_edit.m. Copy crp_edit.m to the CRP toolbox folder
  % Uncomment if you want the RP matrix and threshold
  % [rpMTRX(i).rp rpSTATS(i,1)] = crp_edit(rpTS(i).ts(:,2),m,tau,e,thr,'nonormalize','silent');
-    
+ 
  %RQA measures
  rpSTATS(i,2:14) = crqa(rpTS(i).ts(:,2),m,tau,e,W,WS,LMIN,VMIN,TW,thr,'nonormalize','nogui');
  
@@ -333,16 +333,25 @@ qq = linspace(qmin,qmax,qres);
 
 m=1;
 
- for i = 1:40
-  
-  stimuliMF(i).y = stimuli(i).y;
-  stimuliMF(i).t = [0:(1/stimuli(i).fs):(length(stimuliMF(i).y)-1)/stimuli(i).fs]';
-  
-  [stimuliMF(i).IA, stimuliMF(i).IF] = hilbert2(stimuliMF(i).y,stimuli(i).fs);
-
-  [mf(i).Hq,mf(i).tq,mf(i).hq,mf(i).Dq,mf(i).Fq]=MFDFA1(stimuliMF(i).IA,scale,qq,m,0);
-  %plot(log2(scale),log2(mf(i).Fq(qq==1,:)./scale))
-  
- end
+for i = 1:40
  
-save([datPath,'Hasselman2104_stimfeatures.mat'],'mf','stimuliMF','-append');
+ stimuliMF(i).y = stimuli(i).y;
+ stimuliMF(i).t = [0:(1/stimuli(i).fs):(length(stimuliMF(i).y)-1)/stimuli(i).fs]';
+ 
+ [stimuliMF(i).IA, stimuliMF(i).IF] = hilbert2(stimuliMF(i).y,stimuli(i).fs);
+ 
+ [mf(i).HqE,mf(i).Hq,mf(i).tq,mf(i).hq,mf(i).Dq,mf(i).Fq]=MFDFA1(stimuliMF(i).IA,scale,qq,m,0);
+ %plot(log2(scale),log2(mf(i).Fq(qq==1,:)./scale))
+ 
+end
+
+save([datPat,'Hasselman2104_stimfeatures.mat'],'mf','stimuliMF','-append');
+%% Get the residual error Table S1
+
+for i = 1:40
+ for j=1:101
+  nr(i,j) = mf(1,i).HqE(1,j).normr;
+ end
+end
+
+outnr=[mean(nr(1:10,:),2), std(nr(1:10,:),1,2),mean(nr(11:20,:),2), std(nr(11:20,:),1,2),mean(nr(21:30,:),2), std(nr(21:30,:),1,2), mean(nr(31:40,:),2), std(nr(31:40,:),1,2)];
