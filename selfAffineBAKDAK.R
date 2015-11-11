@@ -3,7 +3,10 @@ source_url("https://raw.githubusercontent.com/FredHasselman/scicuRe/master/scicu
 inIT(c("wmtsa","plyr","lattice","tuneR","EMD"))
 
 #setwd("~/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/STIMULI/") #ARTICLE_TEX/FIGURES")
-setwd("/Volumes/Fred HD/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/STIMULI")
+pre <- "~/Library/Mobile Documents/com~apple~CloudDocs/Projects/Classifying Complex Signals/Hasselman2014-PeerJ-Classifying_Acoustic_Signals"
+
+setwd(paste0(pre,"/STIMULI"))
+
 normal<- paste0("BAKDAK",1:10,".WAV")
 slowed <- paste0("BAKDAKV",1:10,".WAV")
 amped <- paste0("BAKDAKA",1:10,".WAV")
@@ -32,11 +35,35 @@ for(w in 1:length(S1d)){
 }
 names(tsy) <- c(normal,slowed,amped,both)
 
-setwd("/Volumes/Fred HD/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/DATA")
+setwd(paste0(pre,"/DATA"))
 save.image(file="vd.RData")
+
 load("vd.RData")
 
-setwd("/Volumes/Fred HD/Dropbox/Hasselman2014-PeerJ-Classifying_Acoustic_Signals/ARTICLE_TEX/FIGURES")
+w=1
+
+for(w in 1){
+  for(s in 1:length(S1[[w]])){
+    cnt <- cnt+1
+    cat(cnt)
+  tt <- cbind((1:length(S1[[w]][[s]]@left))*(1/S1[[w]][[s]]@samp.rate))
+  y  <- hilbertspec(xt=cbind(S1[[w]][[s]]@left),tt=tt)
+  tsy[[cnt]] <- ts(data=abs(y$amplitude)/max(abs(y$amplitude)),start=0,frequency=S1[[w]][[s]]@samp.rate)
+  s.rng    <- deltat(tsy[[cnt]]) * c(1, length(tsy[[cnt]]))
+  W[[cnt]]      <- wavCWT(tsy[[cnt]], wavelet="gaussian2",scale.range=s.rng,n.scale=s.n)
+  W.tree[[cnt]] <- wavCWTTree(W[[cnt]],type='extrema') 
+  }
+}
+
+
+#W[[w]]      <- wavCWT(tsy[[w]], wavelet="gaussian2",scale.range=s.rng,n.scale=s.n)
+W.tree[[w]] <- wavCWTTree(W[[w]],type='maxima') 
+
+holder=holderSpectrum(W.tree[[w]])
+print(holder)
+
+
+setwd(paste0(pre,"/ARTICLE_TEX/FIGURES"))
 for(w in c(1)){
 s.rng    <- deltat(tsy[[w]]) * c(1, length(tsy[[w]]))
 pdf(paste0("MFno",w,".pdf"),paper="a4r",width=0,height=0)
@@ -186,6 +213,24 @@ multi.PLOT <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 }
 
 
+
+
+x <- make.signal("linchirp", n=1024)
+x.dwt <- wavDWT(tsy[[w]], n.levels = 256)
+x.modwt <- wavMODWT(tsy[[w]], n.levels = 256)
+
+## calculate the wavelet details for all crystals 
+## of the DWT and MODWT 
+wavMRD(x.dwt)
+wavMRD(x.modwt)
+
+## plot the wavelet details for levels 1 and 3 of 
+## the MODWT 
+plot(wavMRD(x.modwt, level = c(1,3)))
+
+## plot the wavelet details for all levels of the 
+## MODWT of a linear chirp. 
+plot(wavMRD(x.modwt))
 
 
 
