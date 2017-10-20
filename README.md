@@ -14,7 +14,7 @@ Dependencies:
 
 * [Fred's toolbox](https://github.com/FredHasselman/toolboxML) on GitHub
 * Scripts are available in a [GithHub repository](https://github.com/FredHasselman/Acoustic-Complexity-Matching)
-* Data Files are available at the [Open Science Framework](https://osf.io/a8g32/files) or directly from [Dropbox](https://www.dropbox.com/sh/i1vp0nlsj3mi3v7/AAD6V5WaQLdmEBTFRIzAqQm8a?dl=0)  
+* Data Files are available at the [Open Science Framework](https://osf.io/a8g32/files)
 
 #### Author / Version / License
 
@@ -30,7 +30,7 @@ Affiliations: [School of Pedagogical and Educational Science](http://www.ru.nl/p
 * [QDA code](http://www.maxlittle.net/home/index.php)  by Max Little used in: [M.A. Little, P.E. McSharry, S.J. Roberts, D.A.E. Costello, I.M. Moroz (2007). Exploiting nonlinear recurrence and fractal scaling properties for voice disorder detection, *BioMedical Engineering OnLine* 6:23](http://www.maxlittle.net/publications/bmeo.pdf)  
 * [Fred's toolbox](https://github.com/FredHasselman/toolboxML) on GitHub
 * Scripts are available in a [GithHub repository](https://github.com/FredHasselman/Acoustic-Complexity-Matching)
-* Data Files are available at the [Open Science Framework](https://osf.io/a8g32/files) or directly from [Dropbox](https://www.dropbox.com/sh/i1vp0nlsj3mi3v7/AAD6V5WaQLdmEBTFRIzAqQm8a?dl=0)
+* Data Files are available at the [Open Science Framework](https://osf.io/a8g32/files)
 
 #### Author / Version / License
 
@@ -53,8 +53,8 @@ Results should be comparable to those obtained by [Praat](http://www.praat.org) 
 * [CRP Toolbox](http://tocsy.pik-potsdam.de/CRPtoolbox/) by Norbert Marwan. Note that an edited scriptfile `crp_edit.m` in the [GithHub repository](https://github.com/FredHasselman/Acoustic-Complexity-Matching) is needed to extract the RQA threshold values.
 * `MFDFA1.m` available as part of the [Multifractal Toolbox](http://www.ntnu.edu/inm/geri/software). Download the [Introduction to MFDFA (zip-file)](http://www.ntnu.edu/documents/170234/1315232/Introduction_to_MFDFA4.zip). Detailed instruction are available in [Ihlen, E.A.F. (2012). FrontiersIn Fractal Physiology, 3(141), 1-18](http://www.ntnu.edu/documents/170234/1315232/Introduction_to_MFDFA.pdf)
 * [Fred's toolbox](https://github.com/FredHasselman/toolboxML) on GitHub
-* **DATA** available at [Open Science Framework](https://osf.io/hpjse/files/) or directly from [Dropbox](https://www.dropbox.com/sh/i1vp0nlsj3mi3v7/AAD6V5WaQLdmEBTFRIzAqQm8a?dl=0)
-* **STIMULI** available at [Open Science Framework](https://osf.io/hpjse/files/) or directly from [Dropbox](https://www.dropbox.com/sh/i1vp0nlsj3mi3v7/AAD6V5WaQLdmEBTFRIzAqQm8a?dl=0)
+* **DATA** available at [Open Science Framework](https://osf.io/hpjse/files/)
+* **STIMULI** available at [Open Science Framework](https://osf.io/hpjse/files/)
 * Scripts are available in a [GithHub repository](https://github.com/FredHasselman/Acoustic-Complexity-Matching)
     
 ### Author / Version / License    
